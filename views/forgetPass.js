@@ -1,7 +1,7 @@
 function passReset(e){
     e.preventDefault();
     const email=e.target.email.value;
-    axios.post("http://13.233.174.100/:1000/password/forgotpassword ",{email:email})
+    axios.post("http://13.233.174.100:1000/password/forgotpassword ",{email:email})
     .then((result)=>{
         window.alert("Reset link sent, please check email");
     })
