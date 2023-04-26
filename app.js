@@ -65,7 +65,7 @@ User.hasMany(DownloadedExpense);
 sequelize.sync()
     // sequelize.sync({force:true})
     .then(result => {
-        app.listen(1000);
+        app.listen(2000);
     })
     .catch(err => {
         console.log(err);

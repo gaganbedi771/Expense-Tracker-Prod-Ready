@@ -21,7 +21,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("numOfEntries").value=entries;
   try {
 
-    // const allData=await axios.get(`http://13.233.174.100:1000/getAll?page=${page}&entries=${entries}`, { headers: { "Authorization": token } })
+    // const allData=await axios.get(`http://localhost:2000/getAll?page=${page}&entries=${entries}`, { headers: { "Authorization": token } })
     const allData = await getAllSelected(page, entries)
     // console.log(allData)
     const { expenses, IsPremium, ...pageInfo } = allData.data;
@@ -84,7 +84,7 @@ function getPaginated(page) {
 
 function getAllSelected(page, entries) {
   return new Promise((resolve, reject) => {
-    resolve(axios.get(`http://13.233.174.100:1000/getAll?page=${page}&entries=${entries}`, { headers: { "Authorization": token } }))
+    resolve(axios.get(`http://localhost:2000/getAll?page=${page}&entries=${entries}`, { headers: { "Authorization": token } }))
   }
   )
 }
@@ -141,7 +141,7 @@ function onClick(e) {
       return
     }
 
-    axios.delete(`http://13.233.174.100:1000/deleteExpense/${id}`, { headers: { "Authorization": token } })
+    axios.delete(`http://localhost:2000/deleteExpense/${id}`, { headers: { "Authorization": token } })
       .then(result => {
 
         e.target.parentNode.remove();
@@ -153,7 +153,7 @@ function onClick(e) {
 
   else if (e.target.classList.contains("btn-edit")) {
 
-    axios.get(`http://13.233.174.100:1000/getDetail/${id}`, { headers: { "Authorization": token } })
+    axios.get(`http://localhost:2000/getDetail/${id}`, { headers: { "Authorization": token } })
       .then(result => {
         document.getElementById("userId").value = result.data.id;
         document.getElementById("amount").value = result.data.amount;
@@ -175,7 +175,7 @@ function onSubmit(e) {
   if (document.getElementById("submitbtn").value == "Update") {
 
     const id = document.getElementById("userId").value;
-    axios.patch(`http://13.233.174.100:1000/updateDetails/${id}`, {
+    axios.patch(`http://localhost:2000/updateDetails/${id}`, {
       category: category,
       description: description,
       amount: amount
@@ -191,7 +191,7 @@ function onSubmit(e) {
   }
 
   else {
-    axios.post("http://13.233.174.100:1000/add-expense", {
+    axios.post("http://localhost:2000/add-expense", {
       category: category,
       description: description,
       amount: amount
@@ -235,14 +235,14 @@ function appendDataToPage(data) {
 }
 
 function buyPre(e) {
-  axios.get("http://13.233.174.100:1000/purchasePremium", { headers: { "Authorization": token } })
+  axios.get("http://localhost:2000/purchasePremium", { headers: { "Authorization": token } })
     .then((response) => {
 
       var options = {
         "key": response.data.key_id,
         "order_id": response.data.order.id,
         "handler": function (result) {
-          axios.patch("http://13.233.174.100:1000/purchasePremium/success", {
+          axios.patch("http://localhost:2000/purchasePremium/success", {
             order_id: options.order_id,
             payment_id: result.razorpay_payment_id
           }, { headers: { "Authorization": token } })
@@ -263,7 +263,7 @@ function buyPre(e) {
 
       rzpFrontend.on("payment.failed", function (response) {
 
-        axios.patch("http://13.233.174.100:1000/purchasePremium/failure", {
+        axios.patch("http://localhost:2000/purchasePremium/failure", {
           order_id: options.order_id,
         }, { headers: { "Authorization": token } })
           .then((result) => {
@@ -284,7 +284,7 @@ function showLdrBrd() {
   const LeaderBoard = document.getElementById("LeaderBoard");
   const boardItems = document.getElementById("boardItems");
   LeaderBoard.insertBefore(p, boardItems);
-  axios.get("http://13.233.174.100:1000/purchasePremium/showLeaderBoard", { headers: { "Authorization": token } })
+  axios.get("http://localhost:2000/purchasePremium/showLeaderBoard", { headers: { "Authorization": token } })
     .then(result => {
       //  console.log(result.data)
       result.data.forEach(data => {
@@ -301,7 +301,7 @@ function appendToLeaderBoard(obj) {
 }
 
 function download() {
-  axios.get("http://13.233.174.100:1000/download", { headers: { Authorization: token } })
+  axios.get("http://localhost:2000/download", { headers: { Authorization: token } })
     .then(result => {
       console.log(result.data);
       let list = result.data.list;
