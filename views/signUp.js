@@ -4,7 +4,7 @@ function onSignup(e) {
     const email = e.target.email.value;
     const password = e.target.password.value;
 console.log("running")
-    axios.post("http://localhost:1000/signup", {
+    axios.post("http://13.233.174.100/:1000/signup", {
         name: name,
         email: email,
         password: password
